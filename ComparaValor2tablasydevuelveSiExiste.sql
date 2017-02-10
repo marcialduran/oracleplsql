@@ -1,0 +1,29 @@
+SET SERVEROUTPUT ON
+DECLARE
+
+CURSOR  C_ORIGEN IS
+        SELECT codigo FROM ARINDA2
+        ORDER BY codigo;
+   
+CURSOR  C_DESTINO  (PCODIGO VARCHAR2) IS
+        SELECT * FROM ARINDAMERGE
+        WHERE NO_CIA=01 AND CATEGORIA=000 AND CLASE = 000
+        AND CODIGO=PCODIGO;
+
+          
+BEGIN
+      FOR R_ORIGEN IN C_ORIGEN LOOP
+      FOR R_DESTINO IN C_DESTINO(R_ORIGEN.CODIGO) LOOP
+       DBMS_OUTPUT.PUT_LINE ( 'codigo existe  ' || R_ORIGEN.CODIGO);
+      -- DELETE arindamerge WHERE CODIGO=R_ORIGEN.CODIGO; 
+      -- funciona elimina
+      END LOOP;
+      
+      END LOOP;
+EXCEPTION
+ when no_data_found then
+    DBMS_OUTPUT.PUT_LINE ('SE PUEDE INSERTAR TODO');
+      
+
+
+END;
